@@ -1,0 +1,30 @@
+<div class="container silva">
+  <div class="row justify-content-center">
+    <div class="col-4 text-center" style="height: 800px; background-color: whitesmoke;">
+      <%= form_for :message, url: send_message_silva_messages_path, class:"", remote: true do |f| %>
+        <%= f.text_field :text, class: "control my-3", :autocomplete => :off %>
+        <%= f.submit class: "mb-3" %>
+      <% end %>
+      <ul class="h-75 p-0" id="messages" style="background-color: white;">
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+<script>
+
+  var pusher = new Pusher('2fc3ea72dbaa03b65735', {
+    cluster: 'us2',
+    encrypted: true
+  });
+
+  var channel = pusher.subscribe('messages_channel');
+  channel.bind('my-message', function(data) {
+    if (data.from == "silva") { 
+      $('#messages').prepend('<li class="my">' + data.message + '</li>');
+    } else {
+      $('#messages').prepend('<li class="other">' + data.message + '</li>');
+    }
+  });
+</script>

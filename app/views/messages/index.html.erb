@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-4 text-center pb-3" style="height: auto; background-color: whitesmoke;">
+      <%= form_for :message, url: send_message_messages_path, class:"", remote: true do |f| %>
+        <%= f.text_field :text, class: "form-control control my-3", :autocomplete => :off %>
+        <%= f.submit "Send Message", class: "btn btn-default mb-3" %>
+      <% end %>
+      <div class="space">
+        <ul class="p-0" id="messages">
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+<script>
+
+  var pusher = new Pusher('2fc3ea72dbaa03b65735', {
+    cluster: 'us2',
+    encrypted: true
+  });
+
+  var channel = pusher.subscribe('messages_channel');
+  channel.bind('my-message', function(data) {
+    if (data.from == "<%= current_user.email %>") {
+      $('#messages').append('<li class="my p-2">' + data.message + '</li>');
+    } else {
+      $('#messages').append('<li class="other p-2"><span class="mess">' + data.message + '<span class="by"> Send by:' + data.from +' </li>'); 
+    }
+  });
+</script>
