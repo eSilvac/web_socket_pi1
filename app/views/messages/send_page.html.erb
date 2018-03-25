@@ -1,0 +1,10 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-8 text-center mt-3" style="height: auto; background-color: whitesmoke; border-radius: 5px;">
+      <%= form_for :message, url: send_message_messages_path, class:"", remote: true do |f| %>
+        <%= f.text_field :text, class: "form-control control my-3", :autocomplete => :off %>
+        <%= f.submit "Send Message", class: "btn btn-default mb-3" %>
+      <% end %>
+    </div>
+  </div>
+</div>
