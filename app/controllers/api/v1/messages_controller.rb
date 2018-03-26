@@ -17,7 +17,7 @@ class Api::V1::MessagesController < ApplicationController
 
   private
     def message_params
-      params.require(:message).permit(:text)
+      params.permit(:text)
     end
 
     def authenticate
