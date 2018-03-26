@@ -3,10 +3,10 @@ class Api::V1::MessagesController < ApplicationController
   # before_action :authenticate
 
   def create
-    mensaje = "hola"
+    mensaje = message_params[:text]
     if mensaje != ""
       Pusher.trigger('messages_channel', 'my-message', {
-        message: "hola"
+        message: message_params[:text]
       })
     end
 
@@ -16,9 +16,9 @@ class Api::V1::MessagesController < ApplicationController
   end
 
   private
-    # def message_params
-    #   params.require(:message).permit(:text)
-    # end
+    def message_params
+      params.require(:message).permit(:text)
+    end
 
     def authenticate
       unless User.where(api_token: request.headers['HTTP_X_API_TOKEN']).exists? 
