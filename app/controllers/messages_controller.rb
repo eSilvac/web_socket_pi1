@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  before_action :authenticate_user!
+  include MessagesHelper
 
   def index
   end
@@ -8,13 +8,30 @@ class MessagesController < ApplicationController
   end
 
   def send_message
-    mensaje = message_params
-    if mensaje != ""
+    datos = Datum.all
+
+    datos.each do |e|
+      e.speed
+      coords = {
+        lat: e.lat,
+        lng: e.lng,
+        speed: e.speed,
+        train: "Tranvia1"
+      }
       Pusher.trigger('messages_channel', 'my-message', {
-        message: message_params[:text],
-        from: current_user.email
+        coords: coords
       })
+
+      puts Time.new
     end
+
+
+    # if mensaje != ""
+    #   Pusher.trigger('messages_channel', 'my-message', {
+    #     message: message_params[:text],
+    #     from: current_user.email
+    #   })
+    # end
   end
 
   private
