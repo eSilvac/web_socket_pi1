@@ -9,7 +9,7 @@
 
 require 'csv'
 
-csv_text = File.read(Rails.root.join('lib', 'seeds', 'gps.csv'))
+csv_text = File.read(Rails.root.join('lib', 'seeds', 'Viaje2(Part-1).csv'))
 csv = CSV.parse(csv_text.scrub, headers: true)
 csv.each do |row|
   lat = row['latitude(degree)']
@@ -20,9 +20,79 @@ csv.each do |row|
     t.lat = lat
     t.lng = lng
     t.speed = speed
+    t.train = "TN-2"
     t.save
     puts "saved"
   end
 end
+
+csv_text = File.read(Rails.root.join('lib', 'seeds', 'Viaje2(Part-2).csv'))
+csv = CSV.parse(csv_text.scrub, headers: true)
+csv.each do |row|
+  lat = row['latitude(degree)']
+  lng = row['longitude(degree)']
+  speed = ( row['speed(m/s)'].to_f * 3600 ) / 1000
+  if lat != nil && lng != nil
+    t = Datum.new
+    t.lat = lat
+    t.lng = lng
+    t.speed = speed
+    t.train = "TN-2"
+    t.save
+    puts "saved"
+  end
+end
+
+csv_text = File.read(Rails.root.join('lib', 'seeds', 'Viaje1(Part-1).csv'))
+csv = CSV.parse(csv_text.scrub, headers: true)
+csv.each do |row|
+  lat = row['latitude(degree)']
+  lng = row['longitude(degree)']
+  speed = ( row['speed(m/s)'].to_f * 3600 ) / 1000
+  if lat != nil && lng != nil
+    t = Datum.new
+    t.lat = lat
+    t.lng = lng
+    t.speed = speed
+    t.train = "TN-1"
+    t.save
+    puts "saved"
+  end
+end
+
+csv_text = File.read(Rails.root.join('lib', 'seeds', 'Viaje1(Part-2).csv'))
+csv = CSV.parse(csv_text.scrub, headers: true)
+csv.each do |row|
+  lat = row['latitude(degree)']
+  lng = row['longitude(degree)']
+  speed = ( row['speed(m/s)'].to_f * 3600 ) / 1000
+  if lat != nil && lng != nil
+    t = Datum.new
+    t.lat = lat
+    t.lng = lng
+    t.speed = speed
+    t.train = "TN-1"
+    t.save
+    puts "saved"
+  end
+end
+
+# csv_text = File.read(Rails.root.join('lib', 'seeds', 'gps(malo).csv'))
+# csv = CSV.parse(csv_text.scrub, headers: true)
+# csv.each do |row|
+#   lat = row['lat']
+#   lng = row['lng']
+#   speed = 20
+#   if lat != nil && lng != nil
+#     t = Datum.new
+#     t.lat = lat
+#     t.lng = lng
+#     t.speed = speed
+#     t.train = "TN-1"
+#     t.save
+#     puts "saved"
+#   end
+# end
+
 
 puts "There are now #{Datum.count} rows in the transactions table"
